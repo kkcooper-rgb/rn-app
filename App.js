@@ -4,9 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Provider} from 'react-redux';
 import Main from './src/Main';
 import GoodDetail from './src/pages/GoodDetail';
-import Cate from './src/pages/Cate';
 import GoodList from './src/pages/GoodList';
-
 import store from './src/redux/index';
 export default class App extends Component {
   state = {
@@ -38,7 +36,6 @@ export default class App extends Component {
                 },
               }}
             />
-            {/* <Stack.Screen name="Cate" component={Cate} /> */}
             <Stack.Screen
               name="GoodList"
               component={GoodList}

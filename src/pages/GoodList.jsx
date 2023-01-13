@@ -1,4 +1,5 @@
 import { Text, StyleSheet,FlatList, View,TouchableWithoutFeedback,Image,ScrollView,Dimensions } from 'react-native'
+import Toast from '@ant-design/react-native/lib/toast'
 import React, { Component } from 'react'
 import { request } from '../utils/util';
 import api from '../config/api';
@@ -42,13 +43,15 @@ export default class GoodList extends Component {
     this.getGoodsListData(true)
   }
   handleOnEndReached = () =>{
-    if (this.state.pagenum * this.state.pagesize >= this.state.total) return console.log("加载完毕");
+    if (this.state.pagenum * this.state.pagesize >= this.state.total) return Toast.fail({
+      content: '加载完毕',
+      duration: 3
+    }) 
     if (this.state.isloading) return
     let pagenum = this.state.pagenum+=1
     this.setState({
       pagenum
     })
-    console.log(33333333);
     this.getGoodsListData()
   }
   render() {

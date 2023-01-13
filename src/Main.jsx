@@ -1,24 +1,39 @@
 import React, {Component} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import{connect} from 'react-redux'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import {HomeStackScreen,CateStackScreen} from "./router/index"
 import Home from './pages/Home';
 import Cate from './pages/Cate';
 import Cart from './pages/Cart';
 import My from './pages/My';
-export default class Main extends Component {
+class Main extends Component {
  
   constructor(props) {
     super(props);
     this.state = {
-      themeColor: '#C00000'
+      themeColor: '#C00000',
+      tabBarBadge:0
     };
-   
+  }
+  componentDidMount(){
+    this.handleTabBarBadge()
+  }
+  handleTabBarBadge(){
+    let num = 0
+    this.props.cartData.detailData.forEach(item=>{
+      if(item.goods_state){
+        num = num + item.goods_count
+      }
+    })
+    this.setState({
+      tabBarBadge:num
+    })
   }
   render() {
     const Tab = createBottomTabNavigator();
-    const {themeColor} = this.state;
+    const {themeColor,tabBarBadge} = this.state;
     const {route} = this.props;
     console.log(this.props,"router_key");
     return (
@@ -75,6 +90,7 @@ export default class Main extends Component {
           name="cart"
           component={Cart}
           options={{
+            tabBarBadge,
             title: '购物车',
             headerStyle: {
               backgroundColor: themeColor,
@@ -103,3 +119,6 @@ export default class Main extends Component {
     );
   }
 }
+export default connect(state=>({
+    cartData: state.cartData,
+  }))(Main)
